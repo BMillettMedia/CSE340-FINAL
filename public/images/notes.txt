@@ -1,3 +1,7 @@
 images needed
 X-blue-eyes.jpg 
 X-dark-magician.jpg
+Data Directory from PostgreSQL Install
+C:\Program Files\PostgreSQL\18\data
+@U7WC00E&b$Y
+Port=5432
