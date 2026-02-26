@@ -1,0 +1,10 @@
+CREATE TABLE cards (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  stock INT DEFAULT 0,
+  set_id INT REFERENCES card_sets(id) ON DELETE SET NULL,
+  image_path VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
