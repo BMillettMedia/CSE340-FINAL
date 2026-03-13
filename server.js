@@ -5,8 +5,19 @@ import { fileURLToPath } from "url";
 import methodOverride from "method-override";
 import cardRoutes from "./routes/cardRoutes.js";
 
+import session from "express-session";
+import dotenv from "dotenv";
+
+import authRoutes from "./routes/authRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
+
+dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.use("/", authRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 const app = express();
 
@@ -17,9 +28,14 @@ app.use(methodOverride("_method"));
 
 app.use(
   session({
-    secret: "yugioh-secret",
+    //secret: "yugioh-secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false, // true only in production (HTTPS)
+      httpOnly: true,
+    },
   })
 );
 
