@@ -1,0 +1,26 @@
+<h1>Edit Card</h1>
+
+<form method="POST">
+
+    <input type="hidden" name="id" value="<%= card.id %>">
+
+    <label>Name</label>
+        <input name="name" value="<%= card.name %>">
+
+    <label>Description</label>
+    <textarea name="description">
+        <%= card.description %>
+    </textarea>
+
+    <label>Price</label>
+        <input name="price" value="<%= card.price %>">
+
+    <label>Rarity</label>
+        <input name="rarity" value="<%= card.rarity %>">
+
+    <label>Set ID</label>
+        <input name="set_id" value="<%= card.set_id %>">
+
+    <button type="submit">Update Card</button>
+
+</form>

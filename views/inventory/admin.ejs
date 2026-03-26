@@ -1,23 +1,45 @@
 <h1>Inventory Management</h1>
 
 <a href="/admin-inventory/add-card">Add New Card</a>
-
-<table>
-  <thead>
-    <tr>
-      <th>Card</th>
-      <th>Rarity</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% cards.forEach(card => { %>
+<a href="/admin-inventory/add-card">
+Add New Card
+</a>
+<a href="/admin-inventory/add-set">
+Add Card Set
+</a>
+<div class="table-container">
+  <table>
+    <thead>
       <tr>
-        <td><%= card.name %></td>
-        <td><%= card.rarity %></td>
-        <td>$<%= card.price %></td>
+        <th>Card</th>
+        <th>Rarity</th>
+        <th>Price</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% cards.forEach(card => { %>
+        <tr>
+          <td><%= card.name %></td>
+          <td><%= card.rarity %></td>
+          <td>$<%= card.price %></td>
+
+          <td>
+            <a href="/admin-inventory/edit/<%= card.id %>">
+              Edit
+            </a>
+          </td>
+
+          <td>
+            <a href="/admin-inventory/delete/<%= card.id %>">
+              Delete
+            </a>
+          </td>
+
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>  

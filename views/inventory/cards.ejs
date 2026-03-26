@@ -1,23 +1,24 @@
 <h1><%= title %></h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Card</th>
-      <th>Set</th>
-      <th>Rarity</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% cards.forEach(card => { %>
+<div class="table-container">
+  <table>
+    <thead>
       <tr>
-        <td><%= card.name %></td>
-        <td><%= card.set_name %></td>
-        <td><%= card.rarity %></td>
-        <td>$<%= card.price %></td>
+        <th>Card</th>
+        <th>Set</th>
+        <th>Rarity</th>
+        <th>Price</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% cards.forEach(card => { %>
+        <tr>
+          <td><%= card.name %></td>
+          <td><%= card.set_name %></td>
+          <td><%= card.rarity %></td>
+          <td>$<%= card.price %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

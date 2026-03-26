@@ -10,6 +10,9 @@ import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import authRoutes from "./routes/authRoutes.js"
+
+app.use("/auth", authRoutes)
 
 dotenv.config();
 

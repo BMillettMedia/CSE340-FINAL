@@ -25,3 +25,111 @@ nav a {
   padding: 10px;
   border-radius: 8px;
 }
+
+
+/*Card Table Styles: Inventory*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background: #333;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+/*Buttons styles*/
+button,
+.btn {
+  background: #0077cc;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover,
+.btn:hover {
+  background: #005fa3;
+}
+
+a {
+  color: #0077cc;
+}
+
+/*Form styles*/
+form {
+  max-width: 500px;
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+textarea {
+  min-height: 80px;
+}
+
+/*Responsive nav*/
+nav {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+nav a {
+  margin-bottom: 5px;
+}
+/*Mobile Layout*/
+@media (max-width: 768px) {
+
+  header {
+    text-align: center;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+
+  form {
+    width: 100%;
+  }
+
+}
+.table-container {
+  overflow-x: auto;
+}

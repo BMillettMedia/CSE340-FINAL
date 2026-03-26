@@ -1,8 +1,20 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import pool from "../config/db.js";
+import authController from "../controllers/authController.js"
 
 const router = express.Router();
+
+router.get("/login", authController.buildLogin)
+
+router.get("/register", authController.buildRegister)
+
+router.post("/login", authController.login)
+
+router.post("/register", authController.register)
+
+router.get("/logout", authController.logout)
+
 
 /* REGISTER PAGE */
 router.get("/register", (req, res) => {

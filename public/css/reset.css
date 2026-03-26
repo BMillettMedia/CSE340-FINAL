@@ -1,0 +1,55 @@
+/* Global Reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f4f4;
+  line-height: 1.6;
+}
+
+/* Container */
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Header */
+
+header {
+  background: #222;
+  color: white;
+  padding: 1rem;
+}
+
+header h1 {
+  font-size: 1.6rem;
+}
+
+/* Navigation */
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Main Content */
+
+main {
+  padding: 20px;
+}

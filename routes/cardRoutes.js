@@ -1,4 +1,12 @@
 import express from "express";
+import inventoryController from "../controllers/inventoryController.js"
+import cardRoutes from "./routes/cardRoutes.js"
+
+app.use("/cards", cardRoutes)
+
+router.get("/", inventoryController.showCards)
+
+router.get("/:id", inventoryController.showCardDetails)
 
 const router = express.Router();
 
