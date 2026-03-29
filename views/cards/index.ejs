@@ -1,0 +1,11 @@
+<h1><%= title %></h1>
+
+<ul>
+  <% cards.forEach(card => { %>
+    <li>
+      <a href="/cards/<%= card.card_id %>">
+        <%= card.card_name %>
+      </a>
+    </li>
+  <% }) %>
+</ul>

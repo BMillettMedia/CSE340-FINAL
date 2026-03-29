@@ -1,0 +1,35 @@
+<h1>Account Dashboard</h1>
+
+<p>Welcome <%= account.account_firstname %></p>
+
+<ul>
+
+    <li>
+    <a href="/cards">
+    Browse Cards
+    </a>
+    </li>
+
+    <li>
+    <a href="/auth/logout">
+    Logout
+    </a>
+    </li>
+
+    </ul>
+
+    <% if(account.account_type === "Admin"){ %>
+
+    <h2>Admin Tools</h2>
+
+    <ul>
+
+    <li>
+    <a href="/cards/manage">
+    Manage Cards
+    </a>
+    </li>
+
+</ul>
+
+<% } %>

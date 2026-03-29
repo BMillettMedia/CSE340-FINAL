@@ -1,20 +1,16 @@
-import express from "express";
+import express from "express"
+import dashboardController from "../controllers/dashboardController.js"
+import authMiddleware from "../utilities/authMiddleware.js"
 
-const router = express.Router();
+const router = new express.Router()
 
-router.get("/", (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/login");
-  }
+/* *****************************
+Protected Dashboard Route
+***************************** */
+router.get(
+  "/",
+  authMiddleware.checkLogin,
+  dashboardController.buildDashboard
+)
 
-  res.render("layout/main", {
-    title: "Dashboard",
-    content: `
-      <h2>Welcome ${req.session.user.email}</h2>
-      <p>Your Role ID: ${req.session.user.role_id}</p>
-      <a href="/logout">Logout</a>
-    `
-  });
-});
-
-export default router;
+export default router

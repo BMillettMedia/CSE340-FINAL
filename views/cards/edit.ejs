@@ -1,0 +1,21 @@
+<h1>Edit Card</h1>
+
+<form action="/cards/edit" method="POST">
+
+<input type="hidden" name="card_id" value="<%= card.card_id %>">
+
+<input name="card_name" value="<%= card.card_name %>">
+
+<input name="card_type" value="<%= card.card_type %>">
+
+<input name="card_attribute" value="<%= card.card_attribute %>">
+
+<input name="card_attack" value="<%= card.card_attack %>">
+
+<input name="card_defense" value="<%= card.card_defense %>">
+
+<textarea name="card_description"><%= card.card_description %></textarea>
+
+<button type="submit">Update</button>
+
+</form>

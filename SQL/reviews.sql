@@ -1,8 +1,15 @@
 CREATE TABLE reviews (
-  id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES users(id) ON DELETE CASCADE,
-  card_id INT REFERENCES cards(id) ON DELETE CASCADE,
-  rating INT CHECK (rating BETWEEN 1 AND 5),
-  comment TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+review_id SERIAL PRIMARY KEY,
+
+review_text TEXT NOT NULL,
+
+review_rating INTEGER NOT NULL,
+
+review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+account_id INTEGER REFERENCES accounts(account_id),
+
+card_id INTEGER REFERENCES cards(id)
+
 );

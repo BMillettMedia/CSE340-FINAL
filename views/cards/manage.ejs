@@ -1,0 +1,21 @@
+<h1>Manage Cards</h1>
+
+<a href="/cards/add">Add New Card</a>
+
+<ul>
+
+<% cards.forEach(card=>{ %>
+
+<li>
+
+<%= card.card_name %>
+
+<a href="/cards/edit/<%= card.card_id %>">Edit</a>
+
+<a href="/cards/delete/<%= card.card_id %>">Delete</a>
+
+</li>
+
+<% }) %>
+
+</ul>

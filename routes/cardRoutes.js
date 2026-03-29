@@ -1,51 +1,56 @@
-import express from "express";
-import inventoryController from "../controllers/inventoryController.js"
-import cardRoutes from "./routes/cardRoutes.js"
+import express from "express"
+import cardController from "../controllers/cardController.js"
+import authMiddleware from "../utilities/authMiddleware.js"
 
-app.use("/cards", cardRoutes)
+const router = new express.Router()
 
-router.get("/", inventoryController.showCards)
+/* *****************************
+Public Card Routes
+***************************** */
 
-router.get("/:id", inventoryController.showCardDetails)
+router.get("/", cardController.buildCardList)
 
-const router = express.Router();
+router.get("/:id", cardController.buildCardDetail)
 
-const cards = [
-  {
-    id: 1,
-    name: "Blue-Eyes White Dragon",
-    price: 25,
-    image: "/images/blue-eyes.jpg"
-  },
-  {
-    id: 2,
-    name: "Dark Magician",
-    price: 20,
-    image: "/images/dark-magician.jpg"
-  }
-];
 
-router.get("/", (req, res) => {
+/* *****************************
+Admin Inventory Routes
+***************************** */
 
-  let cardHTML = `<h1>Card List</h1><div class="card-grid">`;
+router.get(
+  "/manage",
+  authMiddleware.checkAdmin,
+  cardController.buildManageInventory
+)
 
-  cards.forEach(card => {
-    cardHTML += `
-      <div class="card">
-        <img src="${card.image}" width="150">
-        <h3>${card.name}</h3>
-        <p>$${card.price}</p>
-      </div>
-    `;
-  });
+router.get(
+  "/add",
+  authMiddleware.checkAdmin,
+  cardController.buildAddCard
+)
 
-  cardHTML += "</div>";
+router.post(
+  "/add",
+  authMiddleware.checkAdmin,
+  cardController.addCard
+)
 
-  res.render("layout/main", {
-    title: "Cards",
-    content: cardHTML
-  });
+router.get(
+  "/edit/:id",
+  authMiddleware.checkAdmin,
+  cardController.buildEditCard
+)
 
-});
+router.post(
+  "/edit",
+  authMiddleware.checkAdmin,
+  cardController.updateCard
+)
 
-export default router;
+router.get(
+  "/delete/:id",
+  authMiddleware.checkAdmin,
+  cardController.deleteCard
+)
+
+export default router

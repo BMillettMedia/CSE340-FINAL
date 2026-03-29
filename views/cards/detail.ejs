@@ -1,0 +1,64 @@
+<h1><%= card.card_name %></h1>
+
+<p><strong>Type:</strong> <%= card.card_type %></p>
+<p><strong>Attribute:</strong> <%= card.card_attribute %></p>
+<p><strong>ATK:</strong> <%= card.card_attack %></p>
+<p><strong>DEF:</strong> <%= card.card_defense %></p>
+
+<p><%= card.card_description %></p>
+
+<h2>Reviews</h2>
+
+<% if(reviews.length === 0){ %>
+
+<p>No reviews yet.</p>
+
+<% } %>
+
+<ul>
+
+<% reviews.forEach(review=>{ %>
+
+<li>
+
+<strong><%= review.account_firstname %></strong>
+
+Rating: <%= review.review_rating %>/5
+
+<p><%= review.review_text %></p>
+
+</li>
+
+<% }) %>
+
+</ul>
+
+<% if(account){ %>
+
+<h3>Leave a Review</h3>
+
+<form action="/reviews/add" method="POST">
+
+<input type="hidden" name="card_id" value="<%= card.card_id %>">
+
+<label>Rating</label>
+
+<select name="review_rating">
+
+<option value="5">5</option>
+<option value="4">4</option>
+<option value="3">3</option>
+<option value="2">2</option>
+<option value="1">1</option>
+
+</select>
+
+<textarea name="review_text"></textarea>
+
+<button type="submit">Submit Review</button>
+
+</form>
+
+<% } %>
+
+<a href="/cards">Back to Cards</a>
