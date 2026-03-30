@@ -2,9 +2,9 @@ import bcrypt from "bcrypt"
 import utilities from "../utilities/index.js"
 import accountModel from "../models/account-model.js"
 
-/* *****************************
+/* ***************************
 Build Login View
-***************************** */
+*************************** */
 async function buildLogin(req, res) {
 
   const nav = await utilities.getNav()
@@ -15,10 +15,9 @@ async function buildLogin(req, res) {
   })
 }
 
-
-/* *****************************
+/* ***************************
 Build Register View
-***************************** */
+*************************** */
 async function buildRegister(req, res) {
 
   const nav = await utilities.getNav()
@@ -29,10 +28,9 @@ async function buildRegister(req, res) {
   })
 }
 
-
-/* *****************************
+/* ***************************
 Process Registration
-***************************** */
+*************************** */
 async function registerAccount(req, res) {
 
   const nav = await utilities.getNav()
@@ -46,10 +44,8 @@ async function registerAccount(req, res) {
 
   try {
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(account_password, 10)
 
-    // Save account
     const regResult = await accountModel.registerAccount(
       account_firstname,
       account_lastname,
@@ -59,36 +55,26 @@ async function registerAccount(req, res) {
 
     if (regResult) {
 
-      // Optional flash message (only works if middleware exists)
-      if (req.flash) {
-        req.flash("notice", "Account created. Please login.")
-      }
+      req.flash("notice", "Account created successfully. Please log in.")
 
       return res.redirect("/account/login")
 
-    }
+    } else {
 
-    // Registration failed
-    res.render("account/register", {
-      title: "Registration Failed",
-      nav,
-      errors: ["Registration failed. Please try again."],
-      account_firstname,
-      account_lastname,
-      account_email
-    })
+      return res.render("account/register", {
+        title: "Registration Failed",
+        nav
+      })
+
+    }
 
   } catch (error) {
 
-    console.error("Registration Error:", error)
+    console.error("Registration error:", error)
 
     res.render("account/register", {
       title: "Registration Error",
-      nav,
-      errors: ["Something went wrong. Please try again."],
-      account_firstname,
-      account_lastname,
-      account_email
+      nav
     })
 
   }
