@@ -1,3 +1,5 @@
+<div class="card-detail">
+
 <h1><%= card.card_name %></h1>
 
 <p><strong>Type:</strong> <%= card.card_type %></p>
@@ -7,6 +9,9 @@
 
 <p><%= card.card_description %></p>
 
+</div>
+
+
 <h2>Reviews</h2>
 
 <% if(reviews.length === 0){ %>
@@ -15,23 +20,40 @@
 
 <% } %>
 
-<ul>
 
-<% reviews.forEach(review=>{ %>
+<div class="reviews-list">
 
-<li>
+<% reviews.forEach(review => { %>
+
+<div class="review">
 
 <strong><%= review.account_firstname %></strong>
 
-Rating: <%= review.review_rating %>/5
+<p><strong>Rating:</strong> <%= review.review_rating %>/5</p>
 
 <p><%= review.review_text %></p>
 
-</li>
+</div>
 
 <% }) %>
 
-</ul>
+</div>
+
+<p>
+<strong>Average Rating:</strong>
+
+<% if(average && average.average_rating){ %>
+
+<%= average.average_rating %> / 5
+
+<% } else { %>
+
+No ratings yet
+
+<% } %>
+
+</p>
+
 
 <% if(account){ %>
 
@@ -41,24 +63,37 @@ Rating: <%= review.review_rating %>/5
 
 <input type="hidden" name="card_id" value="<%= card.card_id %>">
 
-<label>Rating</label>
+<label for="review_rating">Rating</label>
 
-<select name="review_rating">
+<select name="review_rating" id="review_rating" required>
 
-<option value="5">5</option>
-<option value="4">4</option>
-<option value="3">3</option>
-<option value="2">2</option>
-<option value="1">1</option>
+<option value="5">5 - Excellent</option>
+<option value="4">4 - Good</option>
+<option value="3">3 - Average</option>
+<option value="2">2 - Poor</option>
+<option value="1">1 - Terrible</option>
 
 </select>
 
-<textarea name="review_text"></textarea>
+<label for="review_text">Your Review</label>
+
+<textarea 
+name="review_text" 
+id="review_text" 
+placeholder="Share your thoughts about this card..."
+required></textarea>
 
 <button type="submit">Submit Review</button>
 
 </form>
 
+<% } else { %>
+
+<p><a href="/account/login">Log in</a> to leave a review.</p>
+
 <% } %>
 
-<a href="/cards">Back to Cards</a>
+
+<br>
+
+<a class="btn" href="/cards">Back to Cards</a>

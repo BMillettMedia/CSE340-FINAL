@@ -1,25 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/reset.css">
+
+<meta charset="UTF-8">
+
+<title><%= title %></title>
+
+<link rel="stylesheet" href="/css/styles.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
+
 <body>
 
-<nav>
-  <h2>Yu-Gi-Oh Shop</h2>
+<header>
 
-  <a href="/">Home</a>
-  <a href="/cards">Cards</a>
-  <a href="/login">Login</a>
-</nav>
+<h1>Yu-Gi-Oh Card Shop</h1>
 
-<hr>
+<%- nav %>
 
-<div>
-  <%- content %>
-</div>
+</header>
+
+<main>
+
+<%- body %>
+
+</main>
+
+<footer>
+
+<p>© <%= new Date().getFullYear() %> Yu-Gi-Oh Card Shop</p>
+
+</footer>
 
 </body>
+
 </html>

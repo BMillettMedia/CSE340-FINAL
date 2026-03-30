@@ -1,33 +1,89 @@
+/* ===== Base Page Styles ===== */
+
 body {
   font-family: Arial;
   background-color: #f4f4f4;
   padding: 20px;
+  margin: 0;
+}
+
+/* ===== Header & Navigation ===== */
+
+header {
+  margin-bottom: 20px;
 }
 
 nav {
   background-color: black;
   color: white;
   padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 nav a {
   color: white;
   margin-right: 15px;
+  margin-bottom: 5px;
+  text-decoration: none;
 }
 
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Card Grid Display ===== */
+
 .card-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
+  margin-top: 20px;
 }
 
 .card {
   background: white;
-  padding: 10px;
+  padding: 15px;
   border-radius: 8px;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,.15);
 }
 
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0,0,0,.25);
+}
 
-/*Card Table Styles: Inventory*/
+/* ===== Card Detail Page ===== */
+
+.card-detail {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+/* ===== Reviews Section ===== */
+
+.review {
+  background: white;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #0077cc;
+  border-radius: 4px;
+}
+
+.review strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* ===== Card Table Styles: Inventory ===== */
+
+.table-container {
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -50,7 +106,8 @@ tr:nth-child(even) {
   background: #f2f2f2;
 }
 
-/*Buttons styles*/
+/* ===== Buttons ===== */
+
 button,
 .btn {
   background: #0077cc;
@@ -59,6 +116,7 @@ button,
   padding: 8px 14px;
   cursor: pointer;
   border-radius: 4px;
+  transition: background .2s ease;
 }
 
 button:hover,
@@ -66,11 +124,14 @@ button:hover,
   background: #005fa3;
 }
 
+/* ===== Links ===== */
+
 a {
   color: #0077cc;
 }
 
-/*Form styles*/
+/* ===== Forms ===== */
+
 form {
   max-width: 500px;
   background: white;
@@ -97,16 +158,27 @@ textarea {
   min-height: 80px;
 }
 
-/*Responsive nav*/
-nav {
-  display: flex;
-  flex-wrap: wrap;
+/* ===== Dashboard Styles ===== */
+
+.dashboard-links {
+  margin-top: 20px;
 }
 
-nav a {
-  margin-bottom: 5px;
+.dashboard-links a {
+  display: block;
+  margin-bottom: 10px;
 }
-/*Mobile Layout*/
+
+/* ===== Footer ===== */
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  color: #666;
+}
+
+/* ===== Mobile Layout ===== */
+
 @media (max-width: 768px) {
 
   header {
@@ -129,7 +201,8 @@ nav a {
     width: 100%;
   }
 
-}
-.table-container {
-  overflow-x: auto;
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
 }

@@ -71,10 +71,55 @@ async function deleteCard(id){
   return pool.query(sql,[id])
 }
 
+
+async function searchCards(searchTerm){
+
+  try{
+
+    const sql = `
+      SELECT * FROM cards
+      WHERE LOWER(card_name) LIKE LOWER($1)
+    `
+
+    const result = await pool.query(sql,[`%${searchTerm}%`])
+
+    return result.rows
+
+  }catch(error){
+
+    console.error("Search Error:",error)
+
+  }
+
+}
+
+async function getCardsByType(type){
+
+  try{
+
+    const sql = `
+      SELECT * FROM cards
+      WHERE card_type = $1
+    `
+
+    const result = await pool.query(sql,[type])
+
+    return result.rows
+
+  }catch(error){
+
+    console.error(error)
+
+  }
+
+}
+
 export default {
   getAllCards,
   getCardById,
   insertCard,
   updateCard,
-  deleteCard
+  deleteCard,
+  searchCards,
+  getCardsByType
 }

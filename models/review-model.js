@@ -54,10 +54,25 @@ return pool.query(sql,[reviewId])
 
 }
 
+async function getAverageRating(card_id){
+
+  const sql = `
+  SELECT ROUND(AVG(review_rating),1) AS average_rating
+  FROM reviews
+  WHERE card_id = $1
+  `
+
+  const result = await pool.query(sql,[card_id])
+
+  return result.rows[0]
+
+}
+
 export default {
 
 getReviewsByCard,
 addReview,
-deleteReview
+deleteReview,
+getAverageRating
 
 }

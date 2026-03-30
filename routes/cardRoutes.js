@@ -10,8 +10,15 @@ Public Card Routes
 
 router.get("/", cardController.buildCardList)
 
+router.get("/search", cardController.searchCards)
+router.get("/type/:type", cardController.filterByType)
+
 router.get("/:id", cardController.buildCardDetail)
 
+
+router.get("/", cardController.buildCardList)
+router.get("/search", cardController.searchCards)
+router.get("/:card_id", cardController.buildCardDetail)
 
 /* *****************************
 Admin Inventory Routes

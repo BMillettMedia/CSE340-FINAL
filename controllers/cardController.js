@@ -3,6 +3,16 @@ import cardModel from "../models/card-model.js"
 import reviewModel from "../models/review-model.js"
 
 
+const average = await reviewModel.getAverageRating(card_id)
+res.render("cards/detail",{
+  title:card.card_name,
+  nav,
+  card,
+  reviews,
+  average
+})
+
+
 /* *****************************
 Build Card List
 ***************************** */
@@ -12,7 +22,7 @@ async function buildCardList(req,res){
   const cards = await cardModel.getAllCards()
 
   res.render("cards/index",{
-    title:"Card Inventory",
+    title:"Cards",
     nav,
     cards
   })
@@ -157,6 +167,44 @@ async function deleteCard(req,res){
   res.redirect("/cards/manage")
 
 }
+/* *****************************
+Search Card
+***************************** */
+async function searchCards(req, res){
+
+  const nav = await utilities.getNav()
+
+  const searchTerm = req.query.q
+
+  const cards = await cardModel.searchCards(searchTerm)
+
+  res.render("cards/index",{
+    title:`Search Results`,
+    nav,
+    cards
+  })
+
+}
+
+
+//filter cards
+async function filterByType(req,res){
+
+  const nav = await utilities.getNav()
+
+  const type = req.params.type
+
+  const cards = await cardModel.getCardsByType(type)
+
+  res.render("cards/index",{
+    title:`${type} Cards`,
+    nav,
+    cards
+  })
+
+}
+
+
 
 export default {
   buildCardList,
@@ -166,5 +214,8 @@ export default {
   addCard,
   buildEditCard,
   updateCard,
-  deleteCard
+  deleteCard,
+  searchCards,
+  filterByType,
+  average
 }
