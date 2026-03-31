@@ -5,14 +5,14 @@ import { fileURLToPath } from "url"
 import methodOverride from "method-override"
 import dotenv from "dotenv"
 
+import utilities from "./utilities/index.js"
+
 import cardRoutes from "./routes/cardRoutes.js"
 import accountRoute from "./routes/accountRoute.js"
 import authRoutes from "./routes/authRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"
 import reviewRoutes from "./routes/reviewRoutes.js"
 
-
-app.use("/reviews",reviewRoutes)
 // Load environment variables
 dotenv.config()
 
@@ -42,32 +42,47 @@ app.use(
   })
 )
 
-// Static Files
+// Static files
 app.use(express.static(path.join(__dirname, "public")))
 
-// View Engine
+// View engine
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
 
-// Routes
+/* ***************************
+Routes
+*************************** */
+
 app.use("/cards", cardRoutes)
 app.use("/account", accountRoute)
 app.use("/auth", authRoutes)
 app.use("/dashboard", dashboardRoutes)
+app.use("/reviews", reviewRoutes)
 
-// Home Page
-app.get("/", (req, res) => {
+/* ***************************
+Home Page
+*************************** */
+
+app.get("/", async (req, res) => {
+
+  const nav = await utilities.getNav()
+
   res.render("layout/main", {
     title: "Yu-Gi-Oh Card Shop",
+    nav,
     content: `
-      <h1>Welcome to Yu-Gi-Oh Card Shop</h1>
-      <p>Browse cards and build your deck.</p>
+      <h2>Welcome Duelist!</h2>
+      <p>Browse cards and build your ultimate deck.</p>
       <a href="/cards">View Cards</a>
-    `,
+    `
   })
+
 })
 
-// Start Server
+/* ***************************
+Start Server
+*************************** */
+
 const PORT = process.env.PORT || 5500
 
 app.listen(PORT, () => {

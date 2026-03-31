@@ -2,9 +2,9 @@ import bcrypt from "bcrypt"
 import pool from "../database/connection.js"
 import utilities from "../utilities/index.js"
 
-/* *****************************
-Build Login Page
-***************************** */
+/* ***************************
+ * Build Login View
+ *************************** */
 async function buildLogin(req, res) {
 
   const nav = await utilities.getNav()
@@ -16,89 +16,93 @@ async function buildLogin(req, res) {
 
 }
 
-
-/* *****************************
-Process Login
-***************************** */
+/* ***************************
+ * Process Login
+ *************************** */
 async function processLogin(req, res) {
 
   const nav = await utilities.getNav()
 
-  const { account_email, account_password } = req.body
-
   try {
 
-    const sql = `
-      SELECT *
-      FROM accounts
-      WHERE account_email = $1
-    `
-
-    const result = await pool.query(sql, [account_email])
-
-    const account = result.rows[0]
-
-    if (!account) {
-
-      return res.render("account/login", {
-        title: "Login",
-        nav,
-        errors: ["Invalid email or password"]
-      })
-
-    }
-
-    const passwordMatch = await bcrypt.compare(
-      account_password,
-      account.account_password
-    )
-
-    if (!passwordMatch) {
-
-      return res.render("account/login", {
-        title: "Login",
-        nav,
-        errors: ["Invalid email or password"]
-      })
-
-    }
-
-    req.session.account = {
-      account_id: account.account_id,
-      account_firstname: account.account_firstname,
-      account_type: account.account_type
-    }
-
-    res.redirect("/dashboard")
+    res.render("account/login", {
+      title: "Login",
+      nav,
+      message: "Login functionality not implemented yet."
+    })
 
   } catch (error) {
 
-    console.error("Login Error:", error)
+    console.error("processLogin error:", error)
 
-    res.render("account/login", {
-      title: "Login Error",
+    res.status(500).render("account/login", {
+      title: "Login",
       nav,
-      errors: ["Something went wrong"]
+      message: "Login failed."
     })
 
   }
 
 }
 
+/* ***************************
+ * Build Register View
+ *************************** */
+async function buildRegister(req, res) {
 
-/* *****************************
-Logout
-***************************** */
+  const nav = await utilities.getNav()
+
+  res.render("account/register", {
+    title: "Register",
+    nav
+  })
+
+}
+
+/* ***************************
+ * Process Registration
+ *************************** */
+async function processRegister(req, res) {
+
+  const nav = await utilities.getNav()
+
+  try {
+
+    res.render("account/login", {
+      title: "Login",
+      nav,
+      message: "Account created successfully. Please login."
+    })
+
+  } catch (error) {
+
+    console.error("processRegister error:", error)
+
+    res.status(500).render("account/register", {
+      title: "Register",
+      nav,
+      message: "Registration failed."
+    })
+
+  }
+
+}
+
+/* ***************************
+ * Logout
+ *************************** */
 function logout(req, res) {
 
-  req.session.destroy(() => {
-    res.redirect("/")
-  })
+  req.session.destroy()
+
+  res.redirect("/")
 
 }
 
 export default {
   buildLogin,
   processLogin,
+  buildRegister,
+  processRegister,
   logout
 }

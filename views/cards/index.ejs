@@ -1,21 +1,33 @@
-<h1>Card Inventory</h1>
+<%- include("../layout/main", {title: title, nav: nav, content: ""}) %>
+
+<h2>Card Inventory</h2>
 
 <div class="card-grid">
 
-<% cards.forEach(card => { %>
+<% if(cards && cards.length > 0){ %>
 
-<div class="card">
+  <% cards.forEach(card => { %>
 
-<h3><%= card.card_name %></h3>
+    <div class="card">
 
-<p><strong>Type:</strong> <%= card.card_type %></p>
+      <h3><%= card.name %></h3>
 
-<p><strong>ATK:</strong> <%= card.card_attack %></p>
+      <p><%= card.description %></p>
 
-<a href="/cards/<%= card.card_id %>">View Card</a>
+      <p>Price: $<%= card.price %></p>
 
-</div>
+      <p>Rarity: <%= card.rarity %></p>
 
-<% }) %>
+      <a href="/cards/<%= card.id %>">View Card</a>
+
+    </div>
+
+  <% }) %>
+
+<% } else { %>
+
+<p>No cards found.</p>
+
+<% } %>
 
 </div>

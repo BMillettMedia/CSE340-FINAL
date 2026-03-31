@@ -78,7 +78,6 @@ async function registerAccount(req, res) {
     })
 
   }
-
 }
 
 export default {

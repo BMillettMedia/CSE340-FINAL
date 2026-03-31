@@ -1,63 +1,26 @@
 import express from "express"
 import cardController from "../controllers/cardController.js"
-import authMiddleware from "../utilities/authMiddleware.js"
 
 const router = new express.Router()
 
-/* *****************************
-Public Card Routes
-***************************** */
-
+/* ***************************
+Card Inventory
+*************************** */
 router.get("/", cardController.buildCardList)
 
-router.get("/search", cardController.searchCards)
-router.get("/type/:type", cardController.filterByType)
-
-router.get("/:id", cardController.buildCardDetail)
-
-
-router.get("/", cardController.buildCardList)
-router.get("/search", cardController.searchCards)
+/* ***************************
+Card Detail
+*************************** */
 router.get("/:card_id", cardController.buildCardDetail)
 
-/* *****************************
-Admin Inventory Routes
-***************************** */
+/* ***************************
+Search Cards
+*************************** */
+router.get("/search/results", cardController.searchCards)
 
-router.get(
-  "/manage",
-  authMiddleware.checkAdmin,
-  cardController.buildManageInventory
-)
-
-router.get(
-  "/add",
-  authMiddleware.checkAdmin,
-  cardController.buildAddCard
-)
-
-router.post(
-  "/add",
-  authMiddleware.checkAdmin,
-  cardController.addCard
-)
-
-router.get(
-  "/edit/:id",
-  authMiddleware.checkAdmin,
-  cardController.buildEditCard
-)
-
-router.post(
-  "/edit",
-  authMiddleware.checkAdmin,
-  cardController.updateCard
-)
-
-router.get(
-  "/delete/:id",
-  authMiddleware.checkAdmin,
-  cardController.deleteCard
-)
+/* ***************************
+Filter by Rarity
+*************************** */
+router.get("/rarity/:rarity", cardController.filterByRarity)
 
 export default router

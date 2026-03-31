@@ -3,13 +3,29 @@ import authController from "../controllers/authController.js"
 
 const router = new express.Router()
 
-/* Login Page */
+/* ***************************
+ * Login Page
+ *************************** */
 router.get("/login", authController.buildLogin)
 
-/* Process Login */
+/* ***************************
+ * Process Login
+ *************************** */
 router.post("/login", authController.processLogin)
 
-/* Logout */
+/* ***************************
+ * Register Page
+ *************************** */
+router.get("/register", authController.buildRegister)
+
+/* ***************************
+ * Process Registration
+ *************************** */
+router.post("/register", authController.processRegister)
+
+/* ***************************
+ * Logout
+ *************************** */
 router.get("/logout", authController.logout)
 
 export default router

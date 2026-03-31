@@ -2,220 +2,165 @@ import utilities from "../utilities/index.js"
 import cardModel from "../models/card-model.js"
 import reviewModel from "../models/review-model.js"
 
-
-const average = await reviewModel.getAverageRating(card_id)
-res.render("cards/detail",{
-  title:card.card_name,
-  nav,
-  card,
-  reviews,
-  average
-})
-
-
-/* *****************************
+/* ***************************
 Build Card List
-***************************** */
-async function buildCardList(req,res){
+*************************** */
+async function buildCardList(req, res) {
 
-  const nav = await utilities.getNav()
-  const cards = await cardModel.getAllCards()
+  try {
 
-  res.render("cards/index",{
-    title:"Cards",
-    nav,
-    cards
-  })
+    const nav = await utilities.getNav()
 
-}
+    const cards = await cardModel.getAllCards() || []
 
-/* *****************************
-Single Card
-***************************** */
-async function buildCardDetail(req,res){
+    res.render("cards/index", {
+      title: "Card Inventory",
+      nav,
+      cards
+    })
 
-  const nav = await utilities.getNav()
-  const cardId = req.params.id
+  } catch (error) {
 
-  const card = await cardModel.getCardById(cardId)
-  const reviews = await reviewModel.getReviewsByCard(cardId)
+    console.error("buildCardList error:", error)
 
-  res.render("cards/detail",{
-    title:card.card_name,
-    nav,
-    card,
-    reviews
-  })
+    const nav = await utilities.getNav()
 
-}
+    res.status(500).render("layout/main", {
+      title: "Error",
+      nav,
+      content: "<h2>Unable to load card inventory.</h2>"
+    })
 
-/* *****************************
-Admin Inventory Dashboard
-***************************** */
-async function buildManageInventory(req,res){
-
-  const nav = await utilities.getNav()
-  const cards = await cardModel.getAllCards()
-
-  res.render("cards/manage",{
-    title:"Manage Cards",
-    nav,
-    cards
-  })
-
-}
-
-/* *****************************
-Build Add Card Page
-***************************** */
-async function buildAddCard(req,res){
-
-  const nav = await utilities.getNav()
-
-  res.render("cards/add",{
-    title:"Add New Card",
-    nav
-  })
-
-}
-
-/* *****************************
-Add Card
-***************************** */
-async function addCard(req,res){
-
-  const nav = await utilities.getNav()
-
-  const {
-    card_name,
-    card_type,
-    card_attribute,
-    card_attack,
-    card_defense,
-    card_description
-  } = req.body
-
-  await cardModel.insertCard(
-    card_name,
-    card_type,
-    card_attribute,
-    card_attack,
-    card_defense,
-    card_description
-  )
-
-  res.redirect("/cards/manage")
-
-}
-
-/* *****************************
-Edit Card Page
-***************************** */
-async function buildEditCard(req,res){
-
-  const nav = await utilities.getNav()
-  const cardId = req.params.id
-
-  const card = await cardModel.getCardById(cardId)
-
-  res.render("cards/edit",{
-    title:"Edit Card",
-    nav,
-    card
-  })
-
-}
-
-/* *****************************
-Update Card
-***************************** */
-async function updateCard(req,res){
-
-  const {
-    card_id,
-    card_name,
-    card_type,
-    card_attribute,
-    card_attack,
-    card_defense,
-    card_description
-  } = req.body
-
-  await cardModel.updateCard(
-    card_id,
-    card_name,
-    card_type,
-    card_attribute,
-    card_attack,
-    card_defense,
-    card_description
-  )
-
-  res.redirect("/cards/manage")
-
-}
-
-/* *****************************
-Delete Card
-***************************** */
-async function deleteCard(req,res){
-
-  const cardId = req.params.id
-
-  await cardModel.deleteCard(cardId)
-
-  res.redirect("/cards/manage")
-
-}
-/* *****************************
-Search Card
-***************************** */
-async function searchCards(req, res){
-
-  const nav = await utilities.getNav()
-
-  const searchTerm = req.query.q
-
-  const cards = await cardModel.searchCards(searchTerm)
-
-  res.render("cards/index",{
-    title:`Search Results`,
-    nav,
-    cards
-  })
+  }
 
 }
 
 
-//filter cards
-async function filterByType(req,res){
+/* ***************************
+Build Card Detail Page
+*************************** */
+async function buildCardDetail(req, res) {
 
-  const nav = await utilities.getNav()
+  try {
 
-  const type = req.params.type
+    const nav = await utilities.getNav()
 
-  const cards = await cardModel.getCardsByType(type)
+    const card_id = req.params.card_id
 
-  res.render("cards/index",{
-    title:`${type} Cards`,
-    nav,
-    cards
-  })
+    const card = await cardModel.getCardById(card_id)
+
+    if (!card) {
+      return res.status(404).render("layout/main", {
+        title: "Card Not Found",
+        nav,
+        content: "<h2>Card not found.</h2>"
+      })
+    }
+
+    const reviews = await reviewModel.getReviewsByCardId(card_id) || []
+
+    const average = await reviewModel.getAverageRating(card_id) || { avg: 0 }
+
+    res.render("cards/detail", {
+      title: card.name,   // FIXED (was card.card_name)
+      nav,
+      card,
+      reviews,
+      average,
+      account: req.session?.user || null
+    })
+
+  } catch (error) {
+
+    console.error("buildCardDetail error:", error)
+
+    const nav = await utilities.getNav()
+
+    res.status(500).render("layout/main", {
+      title: "Error",
+      nav,
+      content: "<h2>Unable to load card details.</h2>"
+    })
+
+  }
 
 }
 
 
+/* ***************************
+Search Cards
+*************************** */
+async function searchCards(req, res) {
+
+  try {
+
+    const nav = await utilities.getNav()
+
+    const searchTerm = req.query.q || ""
+
+    const cards = await cardModel.searchCards(searchTerm) || []
+
+    res.render("cards/index", {
+      title: "Search Results",
+      nav,
+      cards
+    })
+
+  } catch (error) {
+
+    console.error("searchCards error:", error)
+
+    const nav = await utilities.getNav()
+
+    res.status(500).render("layout/main", {
+      title: "Search Error",
+      nav,
+      content: "<h2>Unable to search cards.</h2>"
+    })
+
+  }
+
+}
+
+
+/* ***************************
+Filter Cards by Rarity
+*************************** */
+async function filterByRarity(req, res) {
+
+  try {
+
+    const nav = await utilities.getNav()
+
+    const rarity = req.params.rarity
+
+    const cards = await cardModel.getCardsByRarity(rarity) || []
+
+    res.render("cards/index", {
+      title: `${rarity} Cards`,
+      nav,
+      cards
+    })
+
+  } catch (error) {
+
+    console.error("filterByRarity error:", error)
+
+    const nav = await utilities.getNav()
+
+    res.status(500).render("layout/main", {
+      title: "Filter Error",
+      nav,
+      content: "<h2>Unable to filter cards.</h2>"
+    })
+
+  }
+
+}
 
 export default {
   buildCardList,
   buildCardDetail,
-  buildManageInventory,
-  buildAddCard,
-  addCard,
-  buildEditCard,
-  updateCard,
-  deleteCard,
   searchCards,
-  filterByType,
-  average
+  filterByRarity
 }
